@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/features/list/list_cell.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
@@ -49,11 +50,10 @@ class _ListPageState extends State<ListPage> {
               child: ListView.builder(
                 itemCount: _tasks.length,
                 itemBuilder: ((context, index) {
-                  return Text(_tasks[index]);
+                  return ListCell(taskText: _tasks[index]);
                 }),
               ),
             ),
-            const Spacer(),
           ],
         ),
       ),
