@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/features/list/list_cell.dart';
+import 'package:todo/features/register/register_page.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
@@ -56,6 +57,17 @@ class _ListPageState extends State<ListPage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const RegisterPage(),
+                fullscreenDialog: true),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
