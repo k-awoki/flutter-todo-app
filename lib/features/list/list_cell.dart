@@ -16,7 +16,10 @@ class ListCell extends StatelessWidget {
         margin: const EdgeInsets.all(8),
         elevation: 8,
         shadowColor: Colors.black,
-        child: Text(taskText),
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Text(taskText),
+        ),
       ),
     );
   }
