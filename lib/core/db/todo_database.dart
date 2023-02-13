@@ -40,13 +40,31 @@ class TodoDatabase extends _$TodoDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  Stream<List<Task>> watchEntries() {
+    return select(tasks).watch();
+  }
+
+  Future<List<Task>> get getAllTasks => select(tasks).get();
+
+  Future<void> insertTask(String title, String content, Priority priority) {
+    return into(tasks).insert(
+      TasksCompanion.insert(title: title, content: content, priority: priority),
+      onConflict: DoUpdate(
+        (old) => TasksCompanion.custom(
+          id: old.id,
+          title: old.title,
+          content: old.content,
+          createdAt: old.createdAt,
+          updatedAt: old.updatedAt,
+        ),
+      ),
+    );
+  }
 }
 
 LazyDatabase _openConnection() {
-  // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
-    // for your app.
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'database.sqlite'));
     return NativeDatabase.createInBackground(file);
