@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/core/db/todo_database.dart';
-import 'package:todo/features/list/list_page.dart';
+import 'package:todo/features/list/pages/list_page.dart';
 
 void main() {
   final TodoDatabase database = TodoDatabase();

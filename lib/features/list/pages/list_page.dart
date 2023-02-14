@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/core/db/todo_database.dart';
 import 'package:todo/features/list/list_cell.dart';
+import 'package:todo/features/list/pages/list_cell.dart';
 import 'package:todo/features/register/register_page.dart';
 
 class ListPage extends StatefulWidget {
