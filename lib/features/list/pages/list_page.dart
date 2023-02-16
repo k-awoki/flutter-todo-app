@@ -22,13 +22,11 @@ class ListPage extends ConsumerWidget {
         data: (data) {
           return Padding(
             padding: const EdgeInsets.all(16),
-            child: Flexible(
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: ((context, index) {
-                  return ListCell(taskText: data[index].title);
-                }),
-              ),
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: ((context, index) {
+                return ListCell(taskText: data[index].title);
+              }),
             ),
           );
         },
