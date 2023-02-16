@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/features/list/controllers/list_controller.dart';
 import 'package:todo/features/list/models/list_model.dart';
 import 'package:todo/features/list/pages/list_cell.dart';
-import 'package:todo/features/register/register_page.dart';
+import 'package:todo/features/register/pages/register_page.dart';
 
 class ListPage extends ConsumerWidget {
   const ListPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final controller = ref.read(listController);
-    final model = ref.watch(tasksModel);
+    final controller = ref.read(listController);
+    final model = ref.watch(listModel);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +34,7 @@ class ListPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // controller.onPressedRegister();
+          controller.onPressedRegister();
           Navigator.push(
             context,
             MaterialPageRoute(
