@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:todo/core/db/todo_database.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/features/list/pages/list_page.dart';
 
 void main() {
-  final TodoDatabase database = TodoDatabase();
-  runApp(TodoApp(
-    database: database,
-  ));
+  runApp(const ProviderScope(child: TodoApp()));
 }
 
 class TodoApp extends StatelessWidget {
-  const TodoApp({super.key, required this.database});
-
-  final TodoDatabase database;
+  const TodoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +16,7 @@ class TodoApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ListPage(
-        database: database,
-      ),
+      home: const ListPage(),
     );
   }
 }

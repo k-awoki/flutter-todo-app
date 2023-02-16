@@ -16,8 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Task {
+  int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  Bool get isCompleted => throw _privateConstructorUsedError;
+  Priority get priority => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TaskCopyWith<Task> get copyWith => throw _privateConstructorUsedError;
@@ -28,7 +33,14 @@ abstract class $TaskCopyWith<$Res> {
   factory $TaskCopyWith(Task value, $Res Function(Task) then) =
       _$TaskCopyWithImpl<$Res, Task>;
   @useResult
-  $Res call({String title, String content});
+  $Res call(
+      {int id,
+      String title,
+      String content,
+      Bool isCompleted,
+      Priority priority,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -44,10 +56,19 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? content = null,
+    Object? isCompleted = null,
+    Object? priority = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -56,6 +77,22 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as Bool,
+      priority: null == priority
+          ? _value.priority
+          : priority // ignore: cast_nullable_to_non_nullable
+              as Priority,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -66,7 +103,14 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       __$$_TaskCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String title, String content});
+  $Res call(
+      {int id,
+      String title,
+      String content,
+      Bool isCompleted,
+      Priority priority,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -78,10 +122,19 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? title = null,
     Object? content = null,
+    Object? isCompleted = null,
+    Object? priority = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$_Task(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -90,6 +143,22 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as Bool,
+      priority: null == priority
+          ? _value.priority
+          : priority // ignore: cast_nullable_to_non_nullable
+              as Priority,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -97,16 +166,34 @@ class __$$_TaskCopyWithImpl<$Res> extends _$TaskCopyWithImpl<$Res, _$_Task>
 /// @nodoc
 
 class _$_Task extends _Task {
-  _$_Task({required this.title, required this.content}) : super._();
+  _$_Task(
+      {required this.id,
+      required this.title,
+      required this.content,
+      required this.isCompleted,
+      required this.priority,
+      required this.createdAt,
+      required this.updatedAt})
+      : super._();
 
+  @override
+  final int id;
   @override
   final String title;
   @override
   final String content;
+  @override
+  final Bool isCompleted;
+  @override
+  final Priority priority;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Task(title: $title, content: $content)';
+    return 'Task(id: $id, title: $title, content: $content, isCompleted: $isCompleted, priority: $priority, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -114,12 +201,22 @@ class _$_Task extends _Task {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Task &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.isCompleted, isCompleted) ||
+                other.isCompleted == isCompleted) &&
+            (identical(other.priority, priority) ||
+                other.priority == priority) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, content);
+  int get hashCode => Object.hash(runtimeType, id, title, content, isCompleted,
+      priority, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -129,14 +226,30 @@ class _$_Task extends _Task {
 }
 
 abstract class _Task extends Task {
-  factory _Task({required final String title, required final String content}) =
-      _$_Task;
+  factory _Task(
+      {required final int id,
+      required final String title,
+      required final String content,
+      required final Bool isCompleted,
+      required final Priority priority,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$_Task;
   _Task._() : super._();
 
+  @override
+  int get id;
   @override
   String get title;
   @override
   String get content;
+  @override
+  Bool get isCompleted;
+  @override
+  Priority get priority;
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_TaskCopyWith<_$_Task> get copyWith => throw _privateConstructorUsedError;

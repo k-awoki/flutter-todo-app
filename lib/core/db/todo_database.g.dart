@@ -30,6 +30,19 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   late final GeneratedColumn<String> content = GeneratedColumn<String>(
       'content', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isCompletedMeta =
+      const VerificationMeta('isCompleted');
+  @override
+  late final GeneratedColumn<bool> isCompleted =
+      GeneratedColumn<bool>('is_completed', aliasedName, false,
+          type: DriftSqlType.bool,
+          requiredDuringInsert: false,
+          defaultConstraints: GeneratedColumn.constraintsDependsOnDialect({
+            SqlDialect.sqlite: 'CHECK ("is_completed" IN (0, 1))',
+            SqlDialect.mysql: '',
+            SqlDialect.postgres: '',
+          }),
+          defaultValue: const Constant(false));
   static const VerificationMeta _priorityMeta =
       const VerificationMeta('priority');
   @override
@@ -55,7 +68,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
       defaultValue: currentDateAndTime);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, title, content, priority, createdAt, updatedAt];
+      [id, title, content, isCompleted, priority, createdAt, updatedAt];
   @override
   String get aliasedName => _alias ?? 'tasks';
   @override
@@ -79,6 +92,12 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
           content.isAcceptableOrUnknown(data['content']!, _contentMeta));
     } else if (isInserting) {
       context.missing(_contentMeta);
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+          _isCompletedMeta,
+          isCompleted.isAcceptableOrUnknown(
+              data['is_completed']!, _isCompletedMeta));
     }
     context.handle(_priorityMeta, const VerificationResult.success());
     if (data.containsKey('created_at')) {
@@ -104,6 +123,8 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       content: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
+      isCompleted: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_completed'])!,
       priority: $TasksTable.$converterpriority.fromSql(attachedDatabase
           .typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}priority'])!),
@@ -127,6 +148,7 @@ class Task extends DataClass implements Insertable<Task> {
   final int id;
   final String title;
   final String content;
+  final bool isCompleted;
   final Priority priority;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -134,6 +156,7 @@ class Task extends DataClass implements Insertable<Task> {
       {required this.id,
       required this.title,
       required this.content,
+      required this.isCompleted,
       required this.priority,
       required this.createdAt,
       required this.updatedAt});
@@ -143,6 +166,7 @@ class Task extends DataClass implements Insertable<Task> {
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
     map['content'] = Variable<String>(content);
+    map['is_completed'] = Variable<bool>(isCompleted);
     {
       final converter = $TasksTable.$converterpriority;
       map['priority'] = Variable<int>(converter.toSql(priority));
@@ -157,6 +181,7 @@ class Task extends DataClass implements Insertable<Task> {
       id: Value(id),
       title: Value(title),
       content: Value(content),
+      isCompleted: Value(isCompleted),
       priority: Value(priority),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
@@ -170,6 +195,7 @@ class Task extends DataClass implements Insertable<Task> {
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       content: serializer.fromJson<String>(json['content']),
+      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
       priority: $TasksTable.$converterpriority
           .fromJson(serializer.fromJson<int>(json['priority'])),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -183,6 +209,7 @@ class Task extends DataClass implements Insertable<Task> {
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'content': serializer.toJson<String>(content),
+      'isCompleted': serializer.toJson<bool>(isCompleted),
       'priority': serializer
           .toJson<int>($TasksTable.$converterpriority.toJson(priority)),
       'createdAt': serializer.toJson<DateTime>(createdAt),
@@ -194,6 +221,7 @@ class Task extends DataClass implements Insertable<Task> {
           {int? id,
           String? title,
           String? content,
+          bool? isCompleted,
           Priority? priority,
           DateTime? createdAt,
           DateTime? updatedAt}) =>
@@ -201,6 +229,7 @@ class Task extends DataClass implements Insertable<Task> {
         id: id ?? this.id,
         title: title ?? this.title,
         content: content ?? this.content,
+        isCompleted: isCompleted ?? this.isCompleted,
         priority: priority ?? this.priority,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -211,6 +240,7 @@ class Task extends DataClass implements Insertable<Task> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('content: $content, ')
+          ..write('isCompleted: $isCompleted, ')
           ..write('priority: $priority, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -219,8 +249,8 @@ class Task extends DataClass implements Insertable<Task> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, title, content, priority, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      id, title, content, isCompleted, priority, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -228,6 +258,7 @@ class Task extends DataClass implements Insertable<Task> {
           other.id == this.id &&
           other.title == this.title &&
           other.content == this.content &&
+          other.isCompleted == this.isCompleted &&
           other.priority == this.priority &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
@@ -237,6 +268,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
   final Value<int> id;
   final Value<String> title;
   final Value<String> content;
+  final Value<bool> isCompleted;
   final Value<Priority> priority;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
@@ -244,6 +276,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.content = const Value.absent(),
+    this.isCompleted = const Value.absent(),
     this.priority = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -252,6 +285,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.id = const Value.absent(),
     required String title,
     required String content,
+    this.isCompleted = const Value.absent(),
     required Priority priority,
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -262,6 +296,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? content,
+    Expression<bool>? isCompleted,
     Expression<int>? priority,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
@@ -270,6 +305,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (content != null) 'content': content,
+      if (isCompleted != null) 'is_completed': isCompleted,
       if (priority != null) 'priority': priority,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -280,6 +316,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       {Value<int>? id,
       Value<String>? title,
       Value<String>? content,
+      Value<bool>? isCompleted,
       Value<Priority>? priority,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt}) {
@@ -287,6 +324,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       id: id ?? this.id,
       title: title ?? this.title,
       content: content ?? this.content,
+      isCompleted: isCompleted ?? this.isCompleted,
       priority: priority ?? this.priority,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -304,6 +342,9 @@ class TasksCompanion extends UpdateCompanion<Task> {
     }
     if (content.present) {
       map['content'] = Variable<String>(content.value);
+    }
+    if (isCompleted.present) {
+      map['is_completed'] = Variable<bool>(isCompleted.value);
     }
     if (priority.present) {
       final converter = $TasksTable.$converterpriority;
@@ -324,6 +365,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('content: $content, ')
+          ..write('isCompleted: $isCompleted, ')
           ..write('priority: $priority, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -335,6 +377,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
 abstract class _$TodoDatabase extends GeneratedDatabase {
   _$TodoDatabase(QueryExecutor e) : super(e);
   late final $TasksTable tasks = $TasksTable(this);
+  late final TaskDao taskDao = TaskDao(this as TodoDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

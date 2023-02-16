@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:todo/features/list/models/task_dao.dart';
 
 part 'todo_database.g.dart';
 
@@ -21,6 +22,8 @@ class Tasks extends Table {
   TextColumn get title => text().withLength(max: 50)();
   // タスク内容
   TextColumn get content => text()();
+  // タスク完了済みか
+  BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
   // 優先度
   IntColumn get priority => intEnum<Priority>()();
   // 期限
@@ -32,35 +35,12 @@ class Tasks extends Table {
 }
 
 // Todo Database
-@DriftDatabase(tables: [
-  Tasks,
-])
+@DriftDatabase(tables: [Tasks], daos: [TaskDao])
 class TodoDatabase extends _$TodoDatabase {
   TodoDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
-
-  Stream<List<Task>> watchEntries() {
-    return select(tasks).watch();
-  }
-
-  Future<List<Task>> get getAllTasks => select(tasks).get();
-
-  Future<void> insertTask(String title, String content, Priority priority) {
-    return into(tasks).insert(
-      TasksCompanion.insert(title: title, content: content, priority: priority),
-      onConflict: DoUpdate(
-        (old) => TasksCompanion.custom(
-          id: old.id,
-          title: old.title,
-          content: old.content,
-          createdAt: old.createdAt,
-          updatedAt: old.updatedAt,
-        ),
-      ),
-    );
-  }
 }
 
 LazyDatabase _openConnection() {
