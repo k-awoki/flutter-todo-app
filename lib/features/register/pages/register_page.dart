@@ -9,7 +9,35 @@ class RegisterPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(registerController.notifier);
-    // final model = ref.watch(registerOutputModel);
+
+    ref.listen(registerOutputModel, (prev, next) {
+      if (next.hasError) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('エラーが発生しました')));
+      }
+
+      // TODO: 比較方法再検討
+      if (prev?.value == null || next.value == null) {
+        return;
+      }
+      final int prevLength = prev?.value?.length ?? 0;
+      final int nextLength = next.value?.length ?? 0;
+      if (!(prevLength < nextLength)) {
+        return;
+      }
+
+      // TODO: commonのtoastWidget作成する
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return const SimpleDialog(title: Center(child: Text('登録しました')));
+        },
+      );
+      Future.delayed(const Duration(seconds: 1)).then((_) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      });
+    });
 
     return Scaffold(
       appBar: AppBar(title: const Text('Registor')),
