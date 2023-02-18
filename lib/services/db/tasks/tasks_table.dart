@@ -7,7 +7,7 @@ enum Priority {
 }
 
 class Tasks extends Table {
-  // タスクID
+  // タスクID(Primary Key)
   IntColumn get id => integer().autoIncrement()();
   // タスク名
   TextColumn get title => text().withLength(max: 50)();

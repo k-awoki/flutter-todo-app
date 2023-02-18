@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/features/list/controllers/list_controller.dart';
-import 'package:todo/features/list/models/list_model.dart';
+import 'package:todo/features/list/models/list_output_model.dart';
 import 'package:todo/features/list/pages/list_cell.dart';
 import 'package:todo/features/register/pages/register_page.dart';
 
@@ -10,8 +9,7 @@ class ListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.read(listController);
-    final model = ref.watch(listModel);
+    final model = ref.watch(listOutputModel);
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +24,7 @@ class ListPage extends ConsumerWidget {
             child: ListView.builder(
               itemCount: data.length,
               itemBuilder: ((context, index) {
-                return ListCell(taskText: data[index].title);
+                return ListCell(taskId: data[index].id);
               }),
             ),
           );
@@ -34,7 +32,7 @@ class ListPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.onPressedRegister();
+          // TODO: 遷移方法再検討
           Navigator.push(
             context,
             MaterialPageRoute(

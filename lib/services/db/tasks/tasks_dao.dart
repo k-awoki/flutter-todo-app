@@ -12,10 +12,18 @@ class TaskDao extends DatabaseAccessor<TodoDatabase> with _$TaskDaoMixin {
     return select(tasks).get();
   }
 
+  SingleSelectable<Task> fetch(int id) {
+    return select(tasks)..where((task) => tasks.id.equals(id));
+  }
+
   Future<void> add(String title, String content, priority) {
     return into(tasks).insert(
       TasksCompanion.insert(title: title, content: content, priority: priority),
     );
+  }
+
+  Future<void> renew(Task task) {
+    return update(tasks).replace(task);
   }
 
   Stream<List<Task>> watch() {

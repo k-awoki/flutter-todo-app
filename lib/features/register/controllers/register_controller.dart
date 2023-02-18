@@ -21,20 +21,11 @@ class RegisterControllerNotifier
   final Ref ref;
 
   void inputTitleTextFeild(String title) {
-    // TODO: ここfreezedらしい代入方法を探す
-    state = RegisterControllerState(
-      title: title,
-      content: state.content,
-      priority: state.priority,
-    );
+    state = state.copyWith(title: title);
   }
 
   void inputContentTextFeild(String content) {
-    state = RegisterControllerState(
-      title: state.title,
-      content: content,
-      priority: state.priority,
-    );
+    state = state.copyWith(content: content);
   }
 
   void onPressedRegisterButton() {
