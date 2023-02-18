@@ -4,15 +4,10 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:todo/core/db/daos/task_dao.dart';
+import 'package:todo/services/db/tasks/tasks_dao.dart';
+import 'package:todo/services/db/tasks/tasks_table.dart';
 
 part 'todo_database.g.dart';
-
-enum Priority {
-  low,
-  middle,
-  high,
-}
 
 // タスクテーブル
 class Tasks extends Table {

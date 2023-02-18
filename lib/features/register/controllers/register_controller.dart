@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:todo/core/db/todo_database.dart';
-import 'package:todo/core/db/todo_database_provider.dart';
+import 'package:todo/services/db/tasks/tasks_table.dart';
+import 'package:todo/services/db/todo_database_provider.dart';
 
 part 'register_controller.freezed.dart';
 

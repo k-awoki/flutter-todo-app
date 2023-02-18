@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:todo/core/db/todo_database.dart';
+import 'package:todo/services/db/todo_database.dart';
 
 part 'task_dao.g.dart';
 
@@ -11,7 +11,7 @@ class TaskDao extends DatabaseAccessor<TodoDatabase> with _$TaskDaoMixin {
     return select(tasks).get();
   }
 
-  Future<void> add(String title, String content, Priority priority) {
+  Future<void> add(String title, String content, priority) {
     return into(tasks).insert(
       TasksCompanion.insert(title: title, content: content, priority: priority),
     );
