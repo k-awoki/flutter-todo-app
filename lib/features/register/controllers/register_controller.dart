@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:todo/features/register/models/register_input_model.dart';
 import 'package:todo/services/db/tasks/tasks_table.dart';
-import 'package:todo/services/db/todo_database_provider.dart';
 
 part 'register_controller.freezed.dart';
 
@@ -37,12 +37,10 @@ class RegisterControllerNotifier
     );
   }
 
-  Future<void> onPressedRegisterButton() {
-    return ref.read(databaseProvider).taskDao.add(
-          state.title,
-          state.content,
-          state.priority,
-        );
+  void onPressedRegisterButton() {
+    ref
+        .read(registerInputModel)
+        .add(state.title, state.content, state.priority);
   }
 }
 

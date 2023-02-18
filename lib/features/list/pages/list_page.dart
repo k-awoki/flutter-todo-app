@@ -18,8 +18,8 @@ class ListPage extends ConsumerWidget {
         title: const Text('Todo'),
       ),
       body: model.when(
-        error: (error, _) => Text(error.toString()),
-        loading: () => const CircularProgressIndicator(),
+        error: (error, _) => Center(child: Text(error.toString())),
+        loading: () => const Center(child: CircularProgressIndicator()),
         data: (data) {
           return Padding(
             padding: const EdgeInsets.all(16),

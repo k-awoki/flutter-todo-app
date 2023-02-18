@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/features/register/controllers/register_controller.dart';
+import 'package:todo/features/register/models/register_output_model.dart';
 
 class RegisterPage extends ConsumerWidget {
   const RegisterPage({super.key});
@@ -8,6 +9,7 @@ class RegisterPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(registerController.notifier);
+    // final model = ref.watch(registerOutputModel);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Registor')),
@@ -31,9 +33,7 @@ class RegisterPage extends ConsumerWidget {
                 const SizedBox(height: 8),
                 TextButton(
                   onPressed: () {
-                    controller
-                        .onPressedRegisterButton()
-                        .then((value) => Navigator.pop(context));
+                    controller.onPressedRegisterButton();
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.blue,
