@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:todo/services/db/tasks/tasks_table.dart';
 import 'package:todo/services/db/todo_database.dart';
 
-part 'task_dao.g.dart';
+part 'tasks_dao.g.dart';
 
 @DriftAccessor(tables: [Tasks])
 class TaskDao extends DatabaseAccessor<TodoDatabase> with _$TaskDaoMixin {
