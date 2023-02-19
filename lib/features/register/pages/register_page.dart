@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/features/register/controllers/register_controller.dart';
 import 'package:todo/features/register/models/register_output_model.dart';
+import 'package:todo/services/db/tasks/tasks_table.dart';
 
 class RegisterPage extends ConsumerWidget {
   const RegisterPage({super.key});
@@ -58,7 +60,29 @@ class RegisterPage extends ConsumerWidget {
                   onChanged: (text) => controller.inputContentTextFeild(text),
                   maxLines: 1,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
+                const Text('優先度'),
+                const SizedBox(height: 16),
+                CupertinoSegmentedControl(
+                  children: const {
+                    Priority.low: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text('低'),
+                    ),
+                    Priority.middle: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text('中'),
+                    ),
+                    Priority.high: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text('高'),
+                    ),
+                  },
+                  onValueChanged: (value) {
+                    controller.onChangedPriority(value);
+                  },
+                ),
+                const SizedBox(height: 24),
                 TextButton(
                   onPressed: () {
                     controller.onPressedRegisterButton();

@@ -28,6 +28,10 @@ class RegisterControllerNotifier
     state = state.copyWith(content: content);
   }
 
+  void onChangedPriority(Priority priority) {
+    state = state.copyWith(priority: priority);
+  }
+
   void onPressedRegisterButton() {
     ref
         .read(registerInputModel)
