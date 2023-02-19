@@ -1,45 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/features/detail/pages/detail_page.dart';
-import 'package:todo/features/list/models/list_output_model.dart';
-import 'package:todo/features/list/pages/widgets/list_cell.dart';
+import 'package:todo/features/list/pages/widgets/list_child_page.dart';
 import 'package:todo/features/register/pages/register_page.dart';
 
-class ListPage extends ConsumerWidget {
+class ListPage extends StatelessWidget {
   const ListPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final model = ref.watch(listOutputModel);
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todo'),
       ),
-      body: model.when(
-        error: (error, _) => Center(child: Text(error.toString())),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        data: (task) {
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.builder(
-              itemCount: task.length,
-              itemBuilder: ((context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DetailPage(taskId: task[index].id),
-                      ),
-                    );
-                  },
-                  child: ListCell(task: task[index]),
-                );
-              }),
+      body: const DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            TabBar(
+              labelColor: Colors.blue,
+              unselectedLabelColor: Colors.grey,
+              tabs: [
+                Tab(text: '未完了'),
+                Tab(text: '完了済み'),
+              ],
             ),
-          );
-        },
+            Expanded(
+              child: TabBarView(
+                children: [
+                  ListChildPage(isCompleted: false),
+                  ListChildPage(isCompleted: true),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

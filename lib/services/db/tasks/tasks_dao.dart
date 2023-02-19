@@ -12,8 +12,10 @@ class TaskDao extends DatabaseAccessor<TodoDatabase> with _$TaskDaoMixin {
     return (select(tasks)).watch();
   }
 
-  Future<List<Task>> fetchAll() {
-    return select(tasks).get();
+  Stream<List<Task>> watchIsCompleted(bool isCompleted) {
+    return (select(tasks)
+          ..where((task) => task.isCompleted.equals(isCompleted)))
+        .watch();
   }
 
   SingleSelectable<Task> fetch(int id) {

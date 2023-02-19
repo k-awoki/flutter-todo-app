@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/features/list/controllers/list_controller.dart';
-import 'package:todo/features/list/models/list_output_model.dart';
 import 'package:todo/services/db/todo_database.dart';
 
 class ListCell extends ConsumerWidget {

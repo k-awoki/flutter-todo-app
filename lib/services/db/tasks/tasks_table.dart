@@ -12,8 +12,6 @@ class Tasks extends Table {
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
   // 優先度
   IntColumn get priority => intEnum<Priority>()();
-  // 期限
-  // DateTimeColumn get limitOn => dateTime().nullable()();
   // 作成日時
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   // 更新日時
