@@ -33,7 +33,10 @@ class RegisterPage extends ConsumerWidget {
         context: context,
         barrierDismissible: false,
         builder: (_) {
-          return const SimpleDialog(title: Center(child: Text('登録しました')));
+          return const SimpleDialog(
+            title: Center(child: Text('登録しました')),
+            children: [Center(child: Text('タスクを完了させましょう！'))],
+          );
         },
       );
       Future.delayed(const Duration(seconds: 1)).then((_) {
