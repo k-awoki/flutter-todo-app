@@ -31,6 +31,11 @@ class ListCell extends ConsumerWidget {
       return tasks.value?.firstWhere((task) => task.id == taskId);
     }));
 
+    if (task == null) {
+      // タスクが存在しない場合は空Widgetを返却する
+      return const SizedBox();
+    }
+
     return SizedBox(
       height: 60,
       child: Card(
@@ -47,7 +52,7 @@ class ListCell extends ConsumerWidget {
               child: Row(
                 children: [
                   Checkbox(
-                    value: task?.isCompleted ?? false,
+                    value: task.isCompleted,
                     onChanged: (isChecked) {
                       if (isChecked == null) {
                         return;
@@ -55,7 +60,7 @@ class ListCell extends ConsumerWidget {
                       controller.onPressedCheckButton(taskId, isChecked);
                     },
                   ),
-                  Text(task?.title ?? 'タイトルなし'),
+                  Text(task.title),
                 ],
               ),
             ),
@@ -63,7 +68,7 @@ class ListCell extends ConsumerWidget {
             Container(
               width: 32,
               decoration: BoxDecoration(
-                color: _handlePriorityColor(task?.priority ?? Priority.middle),
+                color: _handlePriorityColor(task.priority),
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(8),
                   bottomRight: Radius.circular(8),
