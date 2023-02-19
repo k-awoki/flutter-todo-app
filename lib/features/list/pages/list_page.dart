@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/features/list/models/list_output_model.dart';
-import 'package:todo/features/list/pages/list_cell.dart';
+import 'package:todo/features/list/pages/widgets/list_cell.dart';
 import 'package:todo/features/register/pages/register_page.dart';
 
 class ListPage extends ConsumerWidget {
