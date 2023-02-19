@@ -16,10 +16,8 @@ class TaskDao extends DatabaseAccessor<TodoDatabase> with _$TaskDaoMixin {
     return select(tasks)..where((task) => tasks.id.equals(id));
   }
 
-  Future<void> add(String title, String content, priority) {
-    return into(tasks).insert(
-      TasksCompanion.insert(title: title, content: content, priority: priority),
-    );
+  Future<int> add(TasksCompanion task) {
+    return into(tasks).insert(task);
   }
 
   Future<void> renew(Task task) {

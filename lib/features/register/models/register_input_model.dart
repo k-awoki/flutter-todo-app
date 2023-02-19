@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/services/db/tasks/tasks_table.dart';
+import 'package:todo/services/db/todo_database.dart';
 import 'package:todo/services/db/todo_database_provider.dart';
 
 final registerInputModel = Provider.autoDispose((ref) {
@@ -12,10 +13,11 @@ class _RegisterInputModel {
   final Ref ref;
 
   void add(String title, String content, Priority priority) {
-    ref.read(databaseProvider).taskDao.add(
-          title,
-          content,
-          priority,
-        );
+    final task = TasksCompanion.insert(
+      title: title,
+      content: content,
+      priority: priority,
+    );
+    ref.read(databaseProvider).taskDao.add(task);
   }
 }
