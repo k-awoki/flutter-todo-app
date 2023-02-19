@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/common/enum/priority.dart';
 import 'package:todo/features/register/controllers/register_controller.dart';
 import 'package:todo/features/register/models/register_output_model.dart';
 import 'package:todo/services/db/tasks/tasks_table.dart';
@@ -64,18 +65,18 @@ class RegisterPage extends ConsumerWidget {
                 const Text('優先度'),
                 const SizedBox(height: 16),
                 CupertinoSegmentedControl(
-                  children: const {
+                  children: {
                     Priority.low: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('低'),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(Priority.low.name),
                     ),
                     Priority.middle: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('中'),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(Priority.middle.name),
                     ),
                     Priority.high: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('高'),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(Priority.high.name),
                     ),
                   },
                   onValueChanged: (value) {

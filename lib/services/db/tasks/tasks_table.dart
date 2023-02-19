@@ -1,10 +1,5 @@
 import 'package:drift/drift.dart';
-
-enum Priority {
-  low,
-  middle,
-  high,
-}
+import 'package:todo/common/enum/priority.dart';
 
 class Tasks extends Table {
   // タスクID(Primary Key)

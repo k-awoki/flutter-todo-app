@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:todo/common/enum/priority.dart';
 import 'package:todo/features/register/models/register_input_model.dart';
-import 'package:todo/services/db/tasks/tasks_table.dart';
 
 part 'register_controller.freezed.dart';
 

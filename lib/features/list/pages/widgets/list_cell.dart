@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/features/list/controllers/list_controller.dart';
 import 'package:todo/features/list/models/list_output_model.dart';
-import 'package:todo/services/db/tasks/tasks_table.dart';
 
 class ListCell extends ConsumerWidget {
   const ListCell({
@@ -11,17 +10,6 @@ class ListCell extends ConsumerWidget {
   });
 
   final int taskId;
-
-  Color _handlePriorityColor(Priority priority) {
-    switch (priority) {
-      case Priority.low:
-        return Colors.blue.shade300;
-      case Priority.middle:
-        return Colors.yellow.shade300;
-      case Priority.high:
-        return Colors.red.shade300;
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -68,7 +56,7 @@ class ListCell extends ConsumerWidget {
             Container(
               width: 32,
               decoration: BoxDecoration(
-                color: _handlePriorityColor(task.priority),
+                color: task.priority.color,
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(8),
                   bottomRight: Radius.circular(8),
