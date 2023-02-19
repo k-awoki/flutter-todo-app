@@ -8,6 +8,10 @@ part 'tasks_dao.g.dart';
 class TaskDao extends DatabaseAccessor<TodoDatabase> with _$TaskDaoMixin {
   TaskDao(TodoDatabase db) : super(db);
 
+  Stream<List<Task>> watch() {
+    return (select(tasks)).watch();
+  }
+
   Future<List<Task>> fetchAll() {
     return select(tasks).get();
   }
@@ -24,7 +28,7 @@ class TaskDao extends DatabaseAccessor<TodoDatabase> with _$TaskDaoMixin {
     return update(tasks).replace(task);
   }
 
-  Stream<List<Task>> watch() {
-    return (select(tasks)).watch();
+  Future<void> drop(Task task) {
+    return (delete(tasks)..where((value) => value.id.equals(task.id))).go();
   }
 }

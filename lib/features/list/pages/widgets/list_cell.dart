@@ -2,27 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/features/list/controllers/list_controller.dart';
 import 'package:todo/features/list/models/list_output_model.dart';
+import 'package:todo/services/db/todo_database.dart';
 
 class ListCell extends ConsumerWidget {
   const ListCell({
     super.key,
-    required this.taskId,
+    required this.task,
   });
 
-  final int taskId;
+  final Task task;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(listController);
-    // TODO: 暫定対応(model側にIDチェックのロジック持たせる)
-    final task = ref.watch(listOutputModel.select((tasks) {
-      return tasks.value?.firstWhere((task) => task.id == taskId);
-    }));
-
-    if (task == null) {
-      // タスクが存在しない場合は空Widgetを返却する
-      return const SizedBox();
-    }
 
     return SizedBox(
       height: 60,
@@ -45,7 +37,7 @@ class ListCell extends ConsumerWidget {
                       if (isChecked == null) {
                         return;
                       }
-                      controller.onPressedCheckButton(taskId, isChecked);
+                      controller.onPressedCheckButton(task.id, isChecked);
                     },
                   ),
                   Text(task.title),

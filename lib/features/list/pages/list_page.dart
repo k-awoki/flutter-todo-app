@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/features/detail/pages/detail_page.dart';
 import 'package:todo/features/list/models/list_output_model.dart';
 import 'package:todo/features/list/pages/widgets/list_cell.dart';
 import 'package:todo/features/register/pages/register_page.dart';
@@ -18,13 +19,23 @@ class ListPage extends ConsumerWidget {
       body: model.when(
         error: (error, _) => Center(child: Text(error.toString())),
         loading: () => const Center(child: CircularProgressIndicator()),
-        data: (data) {
+        data: (task) {
           return Padding(
             padding: const EdgeInsets.all(16),
             child: ListView.builder(
-              itemCount: data.length,
+              itemCount: task.length,
               itemBuilder: ((context, index) {
-                return ListCell(taskId: data[index].id);
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DetailPage(taskId: task[index].id),
+                      ),
+                    );
+                  },
+                  child: ListCell(task: task[index]),
+                );
               }),
             ),
           );
@@ -36,7 +47,7 @@ class ListPage extends ConsumerWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const RegisterPage(),
+              builder: (_) => const RegisterPage(),
               fullscreenDialog: true,
             ),
           );

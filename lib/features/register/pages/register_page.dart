@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/common/enum/priority.dart';
 import 'package:todo/features/register/controllers/register_controller.dart';
 import 'package:todo/features/register/models/register_output_model.dart';
-import 'package:todo/services/db/tasks/tasks_table.dart';
 
 class RegisterPage extends ConsumerWidget {
   const RegisterPage({super.key});
